@@ -9,7 +9,7 @@ from scipy import ndimage, misc
 import numpy as np
 
 _const_font_dir = "fonts"
-_number_of_img = 100
+_number_of_img = 1
 _font_size = 80
 _image_size = 80
 
@@ -34,6 +34,7 @@ def kanji_to_array(kanji, kanji_font_file, font_size, image_size):
 
   """
 
+  print(kanji_font_file)
   kanji_font = ImageFont.truetype(kanji_font_file, font_size, encoding = "unic")
 
   kanji_image = Image.new('LA', (image_size, image_size), (0, ))
@@ -56,7 +57,7 @@ def kanji_to_array(kanji, kanji_font_file, font_size, image_size):
   
   return im
 
-def distort_image(image_arr, angle = 15.0, shift = 5.0, blur_radius = 3, factor = 2):
+def distort_image(image_arr, angle = 15.0, shift = 5.0, blur_radius = 2, factor = 1):
   """
   A method to randomly rotate and shift
 
@@ -76,7 +77,7 @@ def distort_image(image_arr, angle = 15.0, shift = 5.0, blur_radius = 3, factor 
 
   return new_image_arr
 
-def prep_dist_images(image_arr, n_images, angle = 15.0, shift = 5.0, blur_radius = 3, factor = 2):
+def prep_dist_images(image_arr, n_images, angle = 15.0, shift = 5.0, blur_radius = 2, factor = 1):
   """
   Prepares a list of a number of distorted images for a particular kanji
 
@@ -152,11 +153,12 @@ def main():
   kanji_labels = [1]
 
   # kanji with different fonts
-  prep_tain_list(kanji_list, kanji_labels, fonts_list, _font_size, _image_size)
+  kanji_train_data, kanji_train_labels = prep_tain_list(kanji_list, kanji_labels, fonts_list, _font_size, _image_size)
 
-  # pylab.winter()
-  # pylab.imshow(kanji_samples[199, :])
-  # pylab.show()
+  for i in range(len(kanji_train_data)):
+    pylab.winter()
+    pylab.imshow(kanji_train_data[i, :])
+    pylab.show()
 
   return
 
